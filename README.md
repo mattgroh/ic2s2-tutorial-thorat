@@ -1,6 +1,8 @@
-# Custom High-Throughput Virtual Experimentats with Thorat Tutorial
+# Custom High-Throughput Virtual Experiments with Thorat Tutorial
 
-## Getting Starts
+Custom High-Throughput Virtual Experiments with Thorat is a tutorial and starter pack for building custom dynamic websites for computational social science experiments.
+
+## Getting Started
 
 ### Clone the Github repo
 
@@ -29,9 +31,9 @@ python run.py
 
 Now, go to localhost:5005 on your browser 
 
-### Oops, looks like we need to uncomment Step 1 to get to "hello world"
+### 1. We'll need to uncomment Step 1 to get to "hello world"
 
-### Now, let's start working through this website. Uncomment Step 2 and start exploring.
+### 2. Now, let's start building this website. Uncomment Step 2 and start exploring.
 
 ### 3. Can you build your own About page?
 
@@ -41,4 +43,4 @@ Now, go to localhost:5005 on your browser
 
 ### 6. Now, let's see what a full working app might look like
 
-### 7. Let's see what the full data looks like by pulling up a Jupyter notebook again
+### 7. Congratulations! You built an interactive experiment! 
