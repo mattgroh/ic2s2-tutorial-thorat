@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  html {
+    background-color: whitesmoke;
+    color: black;
+  }
+</style>
+<div class="left">
+  <div id=container>
+   <div class="row" style="padding: 25px;">
+      <h1> Informed Consent </h1> <br>
+      <p> {{informed_consent_text}}</p>
+      <p> If you're curious about websites built based on this starter pack, check out <a href="https://detectfakes.media.mit.edu"> Detect Fakes </a> and <a href="https://diagnosing-diagnosis.media.mit.edu"> Diagnosing Diagnosis </a>. For a more advanced version built with Django and React, check out <a href="https://wordlelab.media.mit.edu"> Wordle Lab </a>. For links to papers based on these experiments, check out my personal website at <a href="https://mattgroh.com"> mattgroh.com </a>.
+
+    </div>
+  </div>
+</div>
+{% endblock %}

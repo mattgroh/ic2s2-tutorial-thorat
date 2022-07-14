@@ -1,0 +1,197 @@
+<!-- templates/index.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+  html {
+    background-color: whitesmoke;
+    color: black;
+  }
+
+  .break {
+  flex-basis: 100%;
+  height: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+</style>
+
+
+<div class="left">
+  <div id=container>
+   <div class="row" >
+      <h1> Welcome to the Baseline Survey Page </h1>
+      <p> Here's a chance to re-iterate your Informed Consent and clarify exactly what participants will do in this experiment. For example, we will first ask 7 brief survey questions. Then, we will show you images and ask you to annotate these with how it makes you feel. After you annotate 10 images, we will show you how you compare to other participants. All submissions are collected anonymously for research purposes. For questions, please contact email@university.edu. It's good practice to mention that participation is voluntary. </p>
+      </div>
+    <form action="/go" method="post">
+
+    <h1> Survey </h1>
+    <div class="row">
+      <p>{{sq0}}</p>
+      <div class="break"></div>
+      <div class="col-100">
+      <select name="sa0" id="sa0" style="width:400px">
+        <option value="{{sa0[0]}}" SELECTED>{{ sa0[0] }}</option>
+        {% for s in sa0[1:] %}
+          <option value="{{s}}">{{ s }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+      <div class="row">
+          <p>{{sq1}}</p>
+          <div class="break"></div>
+          <div class="col-100">
+          <select name="sa1" id="sa1" style="width:400px">
+            <option value="{{sa1[0]}}" SELECTED>{{ sa1[0] }}</option>
+            {% for s in sa1[1:] %}
+              <option value="{{s}}">{{ s }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="row">
+          <p>{{sq2}}</p>
+          <div class="break"></div>
+          <div class="col-100">
+          <select name="sa2" id="sa2" style="width:400px">
+            <option value="{{sa2[0]}}" SELECTED>{{ sa2[0] }}</option>
+            {% for s in sa2[1:] %}
+              <option value="{{s}}">{{ s }}</option>            {% endfor %}
+          </select>
+          </div>
+      </div>
+      <div class="row">
+          <p>{{sq3}}</p>
+          <div class="break"></div>
+          <div class="col-100">
+          <select name="sa3" id="sa3" style="width:400px">
+            <option value="{{sa3[0]}}" SELECTED>{{ sa3[0] }}</option>
+            {% for s in sa3[1:] %}
+              <option value="{{s}}">{{ s }}</option>
+            {% endfor %}
+          </select>
+          </div>
+      </div>
+      <div class="row">
+          <p>{{sq4}}</p>
+          <div class="break"></div>
+          <div class="col-100">
+          <select name="sa4" id="sa4" style="width:400px">
+            <option value="{{sa4[0]}}" SELECTED>{{ sa4[0] }}</option>
+            {% for s in sa4[1:] %}
+              <option value="{{s}}">{{ s }}</option>
+            {% endfor %}
+          </select>
+          </div>
+      </div>
+      <div class="row">
+        <p>{{sq5}}</p>
+        <div class="break"></div>
+        <div class="col-100">
+        <select name="sa5" id="sa5" style="width:400px">
+          <option value="{{sa5[0]}}" SELECTED>{{ sa5[0] }}</option>
+          {% for s in sa5[1:] %}
+            <option value="{{s}}">{{ s }}</option>
+          {% endfor %}
+        </select>
+        </div>
+    </div>
+    <div class="row">
+      <p>{{sq6}}</p>
+      <div class="break"></div>
+      <div class="col-100">
+      <select name="sa6" id="sa6" style="width:400px">
+        <option value="{{sa6[0]}}" SELECTED>{{ sa6[0] }}</option>
+        {% for s in sa6[1:] %}
+          <option value="{{s}}">{{ s }}</option>
+        {% endfor %}
+      </select>
+      </div>
+  </div>
+
+
+
+    
+    <div class="row">
+      <input type="submit" value="Submit">
+    </div>
+  </form>
+</div>
+
+
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+{% endblock %}

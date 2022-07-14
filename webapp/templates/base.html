@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+    content="Here's the stuff that would show up on Google's Search results">
+  <meta property="image" content="/static/img/giuseppe_arcimboldo/librarian.jpg">
+  <meta name="keywords"
+    content="computational social science, custom experiments, large virtual, keywords for people to find your website">
+  <title>Thorat</title>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/main_v9.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/pb.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.zoom.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/popup.js') }}"></script>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/odometer.css') }}">
+  <script type="text/javascript" src="{{ url_for('static', filename='js/odometer.js') }}"></script>
+  <script type="text/javascript"  src="{{ url_for('static', filename='js/confetti.js') }}"></script>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style_v2.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/component.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/layout.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/video.css') }}">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.png') }}">
+  <link rel='icon' type='image/x-icon' href="{{ url_for('static', filename='img/favicon.6467d01660f0.ico') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/single-vid.css') }}">
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-ANALYTICS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-ANALYTICS');
+</script> -->
+
+<script>
+  $(document).ready(function(){
+    if ($(document).width() > 580) {
+    $('#ex1').zoom();
+    $('#ex2').zoom({ on:'grab' });
+    $('#ex3').zoom({ on:'click' });			 
+    $('#ex4').zoom({ on:'toggle' });
+  }
+  });
+</script>
+</head>
+
+<style>
+  .navbar-container {
+    background-color: transparent;
+  }
+</style>
+
+<!-- <body> -->
+
+<body class="hero-anime">
+  <section class="hero is-primary is-fullheight">
+    <div class="navigation-wrap start-header start-style">
+      <div class="container navbar-container">
+        <div class="row">
+          <div class="col-12">
+            <nav style="padding-bottom:0%; border-bottom: 1px lightgray solid"
+              class="navbar navbar-expand-md navbar-light">
+              <a style="font-size:1.5rem" href="/" class="navbar-brand navbar-links">
+                Custom Experiments with Thorat
+              </a>
+
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto py-4 py-md-0">
+                  <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 navbar-links">
+                    <a class="nav-link" href="/about">
+                      About
+                      <span class="sr-only">(current)</span>
+                    </a>
+                  </li>
+                  <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 navbar-links">
+                    <a class="nav-link" data-popup-open="popup-1" href="#">
+                      Instructions
+                      <span class="sr-only">(current)</span>
+                    </a>
+                  </li>
+                  <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 navbar-links">
+                    <a class="nav-link" href="/informed-consent">
+                      Consent
+                      <span class="sr-only">(current)</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="container">
+      <div class="row" style="padding-top: 20px">
+        <div class="col-12">
+          <center>
+            <div class="popup" data-popup="popup-1">
+              <div class="popup-inner">
+                <h1>Instructions</h1>            
+                <div class="popup-scroll">
+                  <left>
+                  <p style="width: 80%; padding-top: 25px; text-align: left">
+                      These instructions are presented as a modal popup from the base.html file in the templates folder.  
+                    <p style="width: 80%; padding-top: 25px; text-align: left">
+                      The base.html is an HTML file that calls Javascript and CSS, which give this website its style and feel. We're going to abstract the Javascript and CSS today, so you don't need to do anything with these files. The base.html file also contains the navbar with the About, Instructions, and Consent sections. </p>
+                    <p style="width: 80%; padding-top: 25px; text-align: left"> 
+                      If you navigate to the informed-consent.html file, you can see how the base.html file is injected via the `extends "base.html"` into the `block content` that you find on line 140 of base.html. </p>
+                    <p style="width: 80%; padding-top: 25px; text-align: left"> 
+                      Now you're ready to start building without a direct example. Can you build an about section? </p>
+                  </left>
+                </div>
+                <a class="popup-close" data-popup-close="popup-1" href="#">x</a>
+              </div>
+            </div>
+          </center>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <div class="container">
+          {% block content %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <center>
+        <img src="{{ url_for('static', filename='img/logo_media_lab_black.png') }}" height=80>
+      </center>
+    </div>
+  </section>
+
+</body>
+</html>

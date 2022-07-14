@@ -1,0 +1,74 @@
+@import url(https://fonts.googleapis.com/css?family=Playfair+Display);
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.card-wrapper {
+    padding: 2%;
+}
+
+.card-section {
+    font-size: large;
+    padding: 50px;
+    padding-bottom: 25px;
+}
+
+.card-section::after {
+    content: '';
+    display: block;
+    margin-top: 0.5em;
+    width: 100px;
+    height: 3px;
+    background-color: black;
+}
+
+.card-wrapper .card {
+    margin: 0 auto;
+    background-color: whitesmoke;
+    border: none;
+}
+
+.card {
+    position: relative;
+    text-align: center;
+    /* max-width: 300px; */
+    background-color: transparent;
+    /* border-radius: 8px; */
+    border: 0px;
+    overflow: hidden;
+    padding-bottom: 10px;
+}
+
+.my-card {
+    padding: 25px;
+    background-color: transparent;
+}
+
+.image-wrapper {
+    width: auto;
+    /* height: 200px; */
+    overflow: hidden;
+}
+
+/* .heading::after {
+    content: '';
+    display: block;
+    margin-top: 0.5em;
+    width: 30px;
+    height: 5px;
+    background-color: black;
+} */
+
+.text {
+    /* font-family: 'Poppins', sans-serif; */
+    font-weight: 100;
+    font-size: 12px;
+    padding-top: 10px;
+    line-height: 2;
+}
+
+.heading {
+    margin: 25px 0px;
+}
+

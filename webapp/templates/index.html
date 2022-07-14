@@ -1,0 +1,738 @@
+{% extends "base.html" %} {% block content %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+.containerx {
+  position: relative;
+}
+
+.text-block {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: black;
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: left;
+}
+
+  /* these styles are for the demo, but are not required for the plugin */
+  .zoom {
+    display:inline-block;
+    position: relative;
+  }
+  
+  /* magnifying glass icon */
+  .zoom:after {
+    content:'';
+    display:block; 
+    width:33px; 
+    height:33px; 
+    position:absolute; 
+    top:0;
+    right:0;
+    /* background:url(icon.png); */
+  }
+
+  .zoom img {
+    display: block;
+  }
+
+  .zoom img::selection { background-color: transparent; }
+
+  #ex2 img:hover { cursor: url(grab.cur), default; }
+  #ex2 img:active { cursor: url(grabbed.cur), default; }
+</style>
+<style>
+  /*the container must be positioned relative:*/
+  .autocomplete {
+    position: relative;
+    display: inline-block;
+    padding: 10px;
+
+  }
+  
+  .diagnosis {
+    border: 1px solid transparent;
+    background-color: #f1f1f1;
+    padding: 10px;
+    font-size: 12px;
+  }
+  
+  .diagnosis[type=text] {
+    background-color: #f1f1f1;
+    width: 100%;
+  }
+  
+  .autocomplete-items {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    /*position the autocomplete items to be the same width as the container:*/
+    top: 100%;
+    left: 0;
+    right: 0;
+  }
+  
+  .autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff; 
+    border-bottom: 1px solid #d4d4d4; 
+  }
+  
+  /*when hovering an item:*/
+  .autocomplete-items div:hover {
+    background-color: #e9e9e9; 
+  }
+  
+  /*when navigating through the items using the arrow keys:*/
+  .autocomplete-active {
+    background-color: DodgerBlue !important; 
+    color: #ffffff; 
+  }
+  </style>
+
+
+<style type="text/css">
+  .crosshair {
+    cursor: crosshair;
+  }
+
+  @font-face {
+    font-family: adi;
+    src: url("/static/fonts/ClearSans.ttf");
+  }
+
+  body {
+    font-family: adi;
+  }
+  
+  #imgwith{
+    margin-left: 20px;
+  }
+
+  .push{
+    margin-left:30px;
+  }
+
+  @media only screen and (max-width: 991px) {
+
+  }
+
+  @media only screen and (max-width: 507px) {
+  #imgwith{
+    margin-left:5px;
+  }
+}
+
+</style>
+
+<script>
+$(document).ready(function() {
+  $(window).keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+
+
+$(document).ready(function() {
+  var isshow = sessionStorage.getItem('isshow');
+  if (isshow == null) {
+    sessionStorage.setItem('isshow', 1);
+    $('[data-popup="popup-1"]').fadeIn(350);
+  }
+  
+
+  url = ""
+  url_image = "/static/img/"
+  $('#next').on('click', function() {
+    window.location.href = url;
+        });
+
+    $('#next2').on('click', function() {
+    window.location.href = url;
+        });
+
+
+
+
+  $('#next_starter').on('click', function() {
+    window.location.href = url;
+        });
+
+  $('video#yoyoma').on('play', function(event) {
+    setTimeout(function(){
+      document.getElementById("submission").disabled = false;
+      }, {{delay}});
+
+    setTimeout(function(){
+      document.getElementById("next_starter").disabled = false;
+      }, {{5000}});
+
+
+      $.ajax({
+        url: url_image,
+        method: 'post',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          'image': '{{image}}',
+          'seen': '{{seen}}'
+        }),
+        error: function (data) {
+          console.log(data);
+        },
+        success: function (data) {
+          console.log(data)
+        }
+      });
+    });
+  });
+
+
+
+if ($(document).width() < 580) {
+  $("span").removeClass("zoom");
+  console.log('yes?')
+}
+
+</script>
+
+<div id="container" background="black">
+  <div class="row" style="padding-top: 20px">
+    <div class="col-12">
+      <center>
+        <h1 id="question">Please describe the emotions that this image evokes.</h1>
+        <p> You've seen {{seen}} images </p>
+        <button 
+          id="next" type="button" class="btn btn-primary" style="display:none"> Keep Your Answer
+        </button>
+
+        <button 
+          id="next2" type="button" class="btn btn-danger" style="display:none"> Change Answer to Most People
+        </button>
+        <h2 id="confetti" style="display:none">{{confetti}}</h2> 
+
+    </center>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div id="container" background="black">
+  <div class="row" style="padding-top: 10px">
+    <div class="col-6">
+      <center>
+          
+<!--           <h2 style="display:inline"> Score: <h2 class="odometer"> {{score}} </h2> </h2>
+          <h2 id="scorer" style="display:none"> {{score}} </h2>
+          <h2 id="seen" style="display:none"> {{seen}}</h2>
+ -->
+        <br>
+        
+        
+        <div style="display: inline-block;">
+          <span>
+            <span class='zoom' id='ex1'>
+              <div class="containerx">
+            <img src="{{img_path}}{{image}}" width=98%>
+            {% if ai_prediction==1 %}
+            <div id="aiprediction"  class="text-block" style="display:none"> <h2 > AI Prediction</h2>
+              {% else %}
+              <div id="aiprediction"  class="text-block" style="display:none"> <h2 > Crowd Wisdom</h2>
+            {% endif %}
+              {% for likelihood in likelihoods %}
+              <p> {{likelihood}} </p>
+              {% endfor %}
+          </div>
+          <div id="groundtruth"  class="text-block" style="display:none"> <h2 > {{artist}}</h2>
+            <p> {{truth}} </p>
+        </div>
+
+            </span>
+            <!-- <figcaption>Sample Images of Various Conditions on Different Fitzpatrick Skin Types</figcaption> -->
+          </span>
+        </div>
+      </center>
+    </div>
+   
+
+<div class="col-6">
+
+  <div id="dataentry" style="padding-top: 35px;">
+  <center>
+    
+    <td>
+    <form autocomplete="off">
+      <div class="autocomplete">
+        <!-- <label for="diagnosis">Leading Diagnosis: </label> -->
+        <input type="text" id="diagnosis" name="diagnosis" placeholder="Type primary emotion" style="width: 300px;"><br> <br>
+        <input type="text" id="diagnosis2" name="diagnosis2" placeholder="Type secondary emotion" style="width: 300px;"><br> <br> 
+        <input type="text" id="diagnosis3" name="diagnosis3" placeholder="Type tertiary emotion" style="width: 300px;"><br> <br> 
+      </div>
+    </form>
+    </td>
+  </center>
+  <div class="row" style="padding-top: 20px;">
+    <div class="col-12">
+      <center>
+        <input type="range" min="0" max="100" value="50" step="5" class="slider" id="myRange">
+        <p><span id="demo"></span></p>
+        <script>
+          var slider = document.getElementById("myRange");
+          var output = document.getElementById("demo");
+          output.innerHTML = "Slide to select how confident you are annotating this image";
+  
+          slider.oninput = function () {
+            output.innerHTML = this.value + "% confident in your annotation";
+          }
+        </script>
+        
+      </center>
+    </div>
+  </div>
+
+  <div class="row" style="padding-top: 25px;">
+    <div class="col-12">
+      <left>
+        <center>
+          
+              <p text-align= "center">Other details?</p>
+      </center>
+        </left>
+        <div style="display: inline-block; width:100%; padding:0 10px;">
+          <span>   
+            <center>
+            <input type="checkbox" class="referral" name="biopsy" > I have seen this image before
+           
+            <input type="checkbox" class="referral push p1" name="dermatologist" style="margin-left: 30px;"> This image needs a 2nd opinion
+
+            <!-- <input type="checkbox" class="referral push p2" name="topical_steriods" style="margin-left: 30px;"> Topical Steriods
+            <input type="checkbox" class="referral push p3" name="topical_antibiotics" style="margin-left: 30px;"> Topical Antibiotics
+            <input type="checkbox" class="referral push p3" name="oral_antibiotics" style="margin-left: 30px;"> Oral Antibiotics
+            <input type="checkbox" class="referral push p4" name="systemic_therapy" style="margin-left: 30px;"> Systemic therapy -->
+          </center>
+          </span>
+        </div>
+    </div>
+  </div>
+
+</div>
+
+  <div class="row" style="padding-top: 10px;">
+
+    <div class="col-12" style="padding-top:20px;padding-bottom:50px;">
+      <center>
+        <button 
+          id="submission" class="result btn btn-primary" onclick="guessv2('{{image}}','{{seen}}',1, '{{assignment}}', '{{truth}}', 'first', '{{predicted_condition}}')">Submit 
+        </button>
+        
+
+        
+
+<p id="common-miss" style="display:none"> {{common}} </p>
+
+        
+          
+      </center>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+</div>
+</div>
+
+<script>
+  function autocomplete(inp, arr) {
+    /*the autocomplete function takes two arguments,
+    the text field element and an array of possible autocompleted values:*/
+    var currentFocus;
+    /*execute a function when someone writes in the text field:*/
+    inp.addEventListener("input", function(e) {
+        var a, b, i, val = this.value;
+        /*close any already open lists of autocompleted values*/
+        closeAllLists();
+        if (!val) { return false;}
+        currentFocus = -1;
+        /*create a DIV element that will contain the items (values):*/
+        a = document.createElement("DIV");
+        a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-items");
+        /*append the DIV element as a child of the autocomplete container:*/
+        this.parentNode.appendChild(a);
+        /*for each item in the array...*/
+        for (i = 0; i < arr.length; i++) {
+          /*check if the item starts with the same letters as the text field value:*/
+          if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+            /*create a DIV element for each matching element:*/
+            b = document.createElement("DIV");
+            /*make the matching letters bold:*/
+            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+            b.innerHTML += arr[i].substr(val.length);
+            /*insert a input field that will hold the current array item's value:*/
+            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+            /*execute a function when someone clicks on the item value (DIV element):*/
+            b.addEventListener("click", function(e) {
+                /*insert the value for the autocomplete text field:*/
+                inp.value = this.getElementsByTagName("input")[0].value;
+                /*close the list of autocompleted values,
+                (or any other open lists of autocompleted values:*/
+                closeAllLists();
+            });
+            a.appendChild(b);
+          }
+        }
+    });
+    /*execute a function presses a key on the keyboard:*/
+    inp.addEventListener("keydown", function(e) {
+        var x = document.getElementById(this.id + "autocomplete-list");
+        if (x) x = x.getElementsByTagName("div");
+        if (e.keyCode == 40) {
+          /*If the arrow DOWN key is pressed,
+          increase the currentFocus variable:*/
+          currentFocus++;
+          /*and and make the current item more visible:*/
+          addActive(x);
+        } else if (e.keyCode == 38) { //up
+          /*If the arrow UP key is pressed,
+          decrease the currentFocus variable:*/
+          currentFocus--;
+          /*and and make the current item more visible:*/
+          addActive(x);
+        } else if (e.keyCode == 13) {
+          /*If the ENTER key is pressed, prevent the form from being submitted,*/
+          e.preventDefault();
+          if (currentFocus > -1) {
+            /*and simulate a click on the "active" item:*/
+            if (x) x[currentFocus].click();
+          }
+        }
+    });
+    function addActive(x) {
+      /*a function to classify an item as "active":*/
+      if (!x) return false;
+      /*start by removing the "active" class on all items:*/
+      removeActive(x);
+      if (currentFocus >= x.length) currentFocus = 0;
+      if (currentFocus < 0) currentFocus = (x.length - 1);
+      /*add class "autocomplete-active":*/
+      x[currentFocus].classList.add("autocomplete-active");
+    }
+    function removeActive(x) {
+      /*a function to remove the "active" class from all autocomplete items:*/
+      for (var i = 0; i < x.length; i++) {
+        x[i].classList.remove("autocomplete-active");
+      }
+    }
+    function closeAllLists(elmnt) {
+      /*close all autocomplete lists in the document,
+      except the one passed as an argument:*/
+      var x = document.getElementsByClassName("autocomplete-items");
+      for (var i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+          x[i].parentNode.removeChild(x[i]);
+        }
+      }
+    }
+    /*execute a function when someone clicks in the document:*/
+    document.addEventListener("click", function (e) {
+        closeAllLists(e.target);
+    });
+  }
+  
+  /*An array containing all conditions from Google's Supplementary Table 1: https://static-content.springer.com/esm/art%3A10.1038%2Fs41591-020-0842-3/MediaObjects/41591_2020_842_MOESM1_ESM.pdf:*/
+  var skin_conditions = ["Acceptance",'Admiration',
+ 'Adoration',
+ 'Affection',
+ 'Afraid',
+ 'Agitation',
+ 'Agony',
+ 'Aggressive',
+ 'Alarm',
+ 'Alarmed',
+ 'Alienation',
+ 'Amazement',
+ 'Ambivalence',
+ 'Amusement',
+ 'Anger',
+ 'Anguish',
+ 'Annoyed',
+ 'Anticipating',
+ 'Anxious',
+ 'Apathy',
+ 'Apprehension',
+ 'Arrogant',
+ 'Assertive',
+ 'Astonished',
+ 'Attentiveness',
+ 'Attraction',
+ 'Aversion',
+ 'Awe',
+ 'Baffled',
+ 'Bewildered',
+ 'Bitter',
+ 'Bitter sweetness',
+ 'Bliss',
+ 'Bored',
+ 'Brazen',
+ 'Brooding',
+ 'Calm',
+ 'Carefree',
+ 'Careless',
+ 'Caring',
+ 'Charity',
+ 'Cheeky',
+ 'Cheerfulness',
+ 'Claustrophobic',
+ 'Coercive',
+ 'Comfortable',
+ 'Confident',
+ 'Confusion',
+ 'Contempt',
+ 'Content',
+ 'Courage',
+ 'Cowardly',
+ 'Cruelty',
+ 'Curiosity',
+ 'Cynicism',
+ 'Dazed',
+ 'Dejection',
+ 'Delighted',
+ 'Demoralized',
+ 'Depressed',
+ 'Desire',
+ 'Despair',
+ 'Determined',
+ 'Disappointment',
+ 'Disbelief',
+ 'Discombobulated',
+ 'Discomfort',
+ 'Discontentment',
+ 'Disgruntled',
+ 'Disgust',
+ 'Disheartened',
+ 'Dislike',
+ 'Dismay',
+ 'Disoriented',
+ 'Dispirited',
+ 'Displeasure',
+ 'Distraction',
+ 'Distress',
+ 'Disturbed',
+ 'Dominant',
+ 'Doubt',
+ 'Dread',
+ 'Driven',
+ 'Dumbstruck',
+ 'Eagerness',
+ 'Ecstasy',
+ 'Elation',
+ 'Embarrassment',
+ 'Empathy',
+ 'Enchanted',
+ 'Enjoyment',
+ 'Enlightened',
+ 'Ennui',
+ 'Enthusiasm',
+ 'Envy',
+ 'Epiphany',
+ 'Euphoria',
+ 'Exasperated',
+ 'Excitement',
+ 'Expectancy',
+ 'Fascination',
+ 'Fear',
+ 'Flakey',
+ 'Focused',
+ 'Fondness',
+ 'Friendliness',
+ 'Fright',
+ 'Frustrated',
+ 'Fury',
+ 'Glee',
+ 'Gloomy',
+ 'Glumness',
+ 'Gratitude',
+ 'Greed',
+ 'Grief',
+ 'Grouchiness',
+ 'Grumpiness',
+ 'Guilt',
+ 'Happiness',
+ 'Hate',
+ 'Hatred',
+ 'Helpless',
+ 'Homesickness',
+ 'Hope',
+ 'Hopeless',
+ 'Horrified',
+ 'Hospitable',
+ 'Humiliation',
+ 'Humility',
+ 'Hurt',
+ 'Hysteria',
+ 'Idleness',
+ 'Impatient',
+ 'Indifference',
+ 'Indignant',
+ 'Infatuation',
+ 'Infuriated',
+ 'Insecurity',
+ 'Insightful',
+ 'Insulted',
+ 'Interest',
+ 'Intrigued',
+ 'Irritated',
+ 'Isolated',
+ 'Jealousy',
+ 'Joviality',
+ 'Joy',
+ 'Jubilation',
+ 'Kind',
+ 'Lazy',
+ 'Liking',
+ 'Loathing',
+ 'Lonely',
+ 'Longing',
+ 'Loopy',
+ 'Love',
+ 'Lust',
+ 'Mad',
+ 'Melancholy',
+ 'Miserable',
+ 'Miserliness',
+ 'Mixed up',
+ 'Modesty',
+ 'Moody',
+ 'Mortified',
+ 'Mystified',
+ 'Nasty',
+ 'Nauseated',
+ 'Negative',
+ 'Neglect',
+ 'Nervous',
+ 'Nostalgic',
+ 'Numb',
+ 'Obstinate',
+ 'Offended',
+ 'Optimistic',
+ 'Outrage',
+ 'Overwhelmed',
+ 'Panicked',
+ 'Paranoid',
+ 'Passion',
+ 'Patience',
+ 'Pensiveness',
+ 'Perplexed',
+ 'Persevering',
+ 'Pessimism',
+ 'Pity',
+ 'Pleased',
+ 'Pleasure',
+ 'Politeness',
+ 'Positive',
+ 'Possessive',
+ 'Powerless',
+ 'Pride',
+ 'Puzzled',
+ 'Rage',
+ 'Rash',
+ 'Rattled',
+ 'Regret',
+ 'Rejected',
+ 'Relaxed',
+ 'Relieved',
+ 'Reluctant',
+ 'Remorse',
+ 'Resentment',
+ 'Resignation',
+ 'Restlessness',
+ 'Revulsion',
+ 'Ruthless',
+ 'Sadness',
+ 'Satisfaction',
+ 'Scared',
+ 'Schadenfreude',
+ 'Scorn',
+ 'Self-caring',
+ 'Self-compassionate',
+ 'Self-confident',
+ 'Self-conscious',
+ 'Self-critical',
+ 'Self-loathing',
+ 'Self-motivated',
+ 'Self-pity',
+ 'Self-respecting',
+ 'Self-understanding',
+ 'Sentimentality',
+ 'Serenity',
+ 'Shame',
+ 'Shameless',
+ 'Shocked',
+ 'Smug',
+ 'Sorrow',
+ 'Spite',
+ 'Stressed',
+ 'Strong',
+ 'Stubborn',
+ 'Stuck',
+ 'Submissive',
+ 'Suffering',
+ 'Sullenness',
+ 'Surprise',
+ 'Suspense',
+ 'Suspicious',
+ 'Sympathy',
+ 'Tenderness',
+ 'Tension',
+ 'Terror',
+ 'Thankfulness',
+ 'Thrilled',
+ 'Tired',
+ 'Tolerance',
+ 'Torment',
+ 'Triumphant',
+ 'Troubled',
+ 'Trust',
+ 'Uncertainty',
+ 'Undermined',
+ 'Uneasiness',
+ 'Unhappy',
+ 'Unnerved',
+ 'Unsettled',
+ 'Unsure',
+ 'Upset',
+ 'Vengeful',
+ 'Vicious',
+ 'Vigilance',
+ 'Vulnerable',
+ 'Weak',
+ 'Woe',
+ 'Worried',
+ 'Worthy',
+ 'Wrath'];
+  
+  /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
+  autocomplete(document.getElementById("diagnosis"), skin_conditions);
+  autocomplete(document.getElementById("diagnosis2"), skin_conditions);
+  autocomplete(document.getElementById("diagnosis3"), skin_conditions);
+  </script>
+
+{% endblock %}
