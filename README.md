@@ -4,6 +4,8 @@ Custom High-Throughput Virtual Experiments with Thorat is a tutorial and starter
 
 ## Getting Started
 
+You'll need to be able to access Python in your terminal and an interactive development environment (IDE) to get started. If you haven't used an IDE before, check out [Visual Studio Code](https://code.visualstudio.com/)
+
 ### Clone the Github repo
 
 Clone or download the Github repo
