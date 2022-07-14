@@ -7,7 +7,7 @@
 Clone or download the Github repo
 
 ```
-git clone ...
+git clone git@github.com:mattgroh/ic2s2-tutorial-thorat.git
 cd thorat-tutorial
 ```
 
