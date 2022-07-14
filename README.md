@@ -8,7 +8,7 @@ Clone or download the Github repo
 
 ```
 git clone git@github.com:mattgroh/ic2s2-tutorial-thorat.git
-cd thorat-tutorial
+cd ic2s2-tutorial-thorat
 ```
 
 ### Set up your virtual environment
